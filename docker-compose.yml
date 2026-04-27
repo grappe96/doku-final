@@ -1,0 +1,32 @@
+services:
+  doku-front:
+    build: ./front
+    ports:
+      - "3000:80"
+    depends_on:
+      - doku-backend
+
+  doku-backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      DB_HOST: doku-db
+      DB_PORT: 5432
+      DB_USER: doku
+      DB_PASSWORD: doku1234
+      DB_NAME: doku
+    depends_on:
+      - doku-db
+
+  doku-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: doku
+      POSTGRES_PASSWORD: doku1234
+      POSTGRES_DB: doku
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

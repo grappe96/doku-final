@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doku-db
+  labels:
+    app: doku-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doku-db
+  template:
+    metadata:
+      labels:
+        app: doku-db
+    spec:
+      containers:
+        - name: doku-db
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: doku
+            - name: POSTGRES_PASSWORD
+              value: doku1234
+            - name: POSTGRES_DB
+              value: doku
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: doku-db-pvc

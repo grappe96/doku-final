@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doku-backend
+  labels:
+    app: doku-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: doku-backend
+  template:
+    metadata:
+      labels:
+        app: doku-backend
+    spec:
+      containers:
+        - name: doku-backend
+          image: 96grappe/doku-backend:v1
+          ports:
+            - containerPort: 4000
+          env:
+            - name: DB_HOST
+              value: doku-db
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER
+              value: doku
+            - name: DB_PASSWORD
+              value: doku1234
+            - name: DB_NAME
+              value: doku

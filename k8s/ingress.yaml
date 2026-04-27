@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: doku-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /api(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: doku-backend
+                port:
+                  number: 4000
+          - path: /()(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: doku-front
+                port:
+                  number: 80
