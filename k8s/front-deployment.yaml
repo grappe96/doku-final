@@ -19,3 +19,10 @@ spec:
           image: 96grappe/doku-front:v1
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
